@@ -1,4 +1,4 @@
-import {FilterValuesType, TasksStateType, TodolistType} from "../App";
+import {FilterValuesType, TasksStateType, TodolistType} from "../AppWithRedux";
 import {v1} from "uuid";
 import {AddTodolistActionType, RemoveTodolistActionType} from "./todolists-reducer";
 // type ActionType = {
@@ -38,11 +38,16 @@ type ActionsType = RemoveTaskActionType | AddTaskActionType | ChangeTaskStatusAc
     | AddTodolistActionType | RemoveTodolistActionType
 
 
-export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
+const initialState: TasksStateType  = {}
+
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK': {
             const stateCopy = {...state}
-            const tasks = state[action.todolistId]
+            console.log(stateCopy)
+            const tasks = stateCopy[action.todolistId]
+            console.log(tasks)
+            console.log(action.todolistId)
             const filteredTasks = tasks.filter(el => el.id !== action.taskId)
             stateCopy[action.todolistId] = filteredTasks
             return stateCopy
@@ -90,7 +95,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
             return stateCopy
         }
         default:
-            throw new Error('I don\'t understand this action type')
+           return state
     }
 }
 

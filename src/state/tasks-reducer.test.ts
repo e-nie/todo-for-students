@@ -48,7 +48,6 @@ test('correct task should be added to correct array', () => {
     }
 
     const action = addTaskAC('todolistId2', 'juice')
-
     const endState = tasksReducer(startState, action)
 
     expect(endState['todolistId1'].length).toBe(3)
@@ -97,7 +96,6 @@ test('title of specified task should be changed', () => {
     }
 
     const action = changeTaskTitleAC('todolistId2', '2', 'Chocolate')
-
     const endState = tasksReducer(startState, action)
 
 
@@ -121,7 +119,6 @@ test('new property and new array should be added when new todolist is added', ()
     }
 
     const action = addTodolistAC('title doesnt matter')
-
     const endState = tasksReducer(startState, action)
 
     const keys = Object.keys(endState)
