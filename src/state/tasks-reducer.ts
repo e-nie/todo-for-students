@@ -44,10 +44,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     switch (action.type) {
         case 'REMOVE-TASK': {
             const stateCopy = {...state}
-            console.log(stateCopy)
             const tasks = stateCopy[action.todolistId]
-            console.log(tasks)
-            console.log(action.todolistId)
             const filteredTasks = tasks.filter(el => el.id !== action.taskId)
             stateCopy[action.todolistId] = filteredTasks
             return stateCopy
@@ -61,6 +58,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return stateCopy
         }
         case 'CHANGE-TASK-STATUS': {
+            debugger
             return {
                 ...state,
                 [action.todolistId]: state[action.todolistId].map(el => el.id === action.taskId ? {

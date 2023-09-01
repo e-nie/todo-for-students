@@ -59,7 +59,7 @@ export const todolistsReducer = (state: Array<TodolistType> = initialState, acti
             if (todolist) {
                 todolist.title = action.title
             }
-            return [...state,]
+            return [...state]
         }
 
         case 'CHANGE-TODOLIST-FILTER': {
