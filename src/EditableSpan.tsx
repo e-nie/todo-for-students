@@ -4,12 +4,9 @@ import {TextField} from "@mui/material";
 type EditableSpanPropsType = {
     title: string
     onChange: (newValue: string) => void
-
-
-
 }
 export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
-    console.log('EditableSpan is rendering');
+    // console.log('EditableSpan is rendering');
     let [editMode, setEditMode] = useState(false)
     let [title, setTitle] = useState(props.title)
 

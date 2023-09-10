@@ -2,12 +2,12 @@ import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {Button, IconButton, TextField} from "@mui/material";
 import AddTaskIcon from '@mui/icons-material/AddTask';
 
-type AddItemFormPropsType = {
+export type AddItemFormPropsType = {
     addItem: (title: string) => void
 
 }
 
-export const  AddItemForm = React.memo((props: AddItemFormPropsType)=> {
+export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     console.log('AddItemForm was called');
     const [newTaskTitle, setNewTaskTitle] = useState('')
     const [error, setError] = useState<null | string>(null)
@@ -51,6 +51,5 @@ export const  AddItemForm = React.memo((props: AddItemFormPropsType)=> {
         <IconButton color = 'primary' onClick = {addTask}>
             <AddTaskIcon />
         </IconButton>
-
     </div>
 })

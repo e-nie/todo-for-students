@@ -3,15 +3,15 @@ import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
 import {TaskType} from "./Todolist";
-import {ChangeTaskStatusPayloadType} from "./state/tasks-reducer";
+// import {ChangeTaskStatusPayloadType} from "./state/tasks-reducer";
 
-type TaskPropsType = {
+export type TaskPropsType = {
     removeTask: (id: string, todolistId: string) => void
-    changeTaskStatus: (payload:ChangeTaskStatusPayloadType) => void
+    changeTaskStatus: ( todolistId:string,taskId:string,isDone:boolean) => void
     changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
     task: TaskType
     todolistId: string
-
+    isDone:boolean
 }
 export const Task = React.memo((props: TaskPropsType) => {
     const onClickHandler = () => props.removeTask(props.task.id, props.todolistId)
@@ -19,11 +19,11 @@ export const Task = React.memo((props: TaskPropsType) => {
     const onChangeHandler =  (e: ChangeEvent<HTMLInputElement>) => {
         // debugger
         let newIsDoneValue = e.currentTarget.checked
-        props.changeTaskStatus({
-            todolistId: props.todolistId,
-            taskId:props.task.id,
-            isDone:newIsDoneValue
-        })
+        props.changeTaskStatus(
+            props.todolistId,
+         props.task.id,
+            props.isDone
+        )
     }
 
     const onChangeTitleHandler = useCallback((newValue: string) => {

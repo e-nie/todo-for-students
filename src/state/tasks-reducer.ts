@@ -22,15 +22,11 @@ export type  AddTaskActionType = {
 }
 
 
-export type ChangeTaskStatusPayloadType = {
+export type  ChangeTaskStatusActionType = {
+    type: 'CHANGE-TASK-STATUS'
     todolistId: string
     taskId: string
     isDone: boolean
-}
-
-export type  ChangeTaskStatusActionType = {
-    type: 'CHANGE-TASK-STATUS'
-    payload: ChangeTaskStatusPayloadType
 }
 
 export type  changeTaskTitleActionType = {
@@ -46,7 +42,7 @@ type ActionsType = RemoveTaskActionType | AddTaskActionType | ChangeTaskStatusAc
     | AddTodolistActionType | RemoveTodolistActionType
 
 
-const initialState: TasksStateType  = {}
+const initialState: TasksStateType = {}
 
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
@@ -69,10 +65,10 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             // debugger
             return {
                 ...state,
-                [action.payload.todolistId]: state[action.payload.todolistId].map(el => el.id === action.payload.taskId ? {
-                    ...el,
-                    isDone: action.payload.isDone
-                } : el)
+                [action.todolistId]: state[action.todolistId]
+                    .map(el => el.id === action.taskId
+                        ? {...el, isDone: action.isDone}
+                        : el)
             }
         }
         case 'CHANGE-TASK-TITLE': {
@@ -83,7 +79,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             //     task.title === action.title
             // }
             // return stateCopy
-            return {...state,
+            return {
+                ...state,
                 [action.todolistId]: state[action.todolistId].map(el => el.id === action.taskId ? {
                     ...el,
                     title: action.title
@@ -101,7 +98,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             return stateCopy
         }
         default:
-           return state
+            return state
     }
 }
 
@@ -109,12 +106,12 @@ export const removeTaskAC = (todolistId: string, taskId: string): RemoveTaskActi
     return {type: 'REMOVE-TASK', todolistId, taskId}
 }
 
-export const addTaskAC = (todolistId:string, title:string): AddTaskActionType => {
+export const addTaskAC = (todolistId: string, title: string): AddTaskActionType => {
     return {type: 'ADD-TASK', todolistId, title}
 }
 
-export const changeTaskStatusAC = (payload:ChangeTaskStatusPayloadType): ChangeTaskStatusActionType => {
-    return {type: 'CHANGE-TASK-STATUS', payload }
+export const changeTaskStatusAC = (todolistId: string, taskId: string, isDone: boolean): ChangeTaskStatusActionType => {
+    return {type: 'CHANGE-TASK-STATUS', todolistId, taskId, isDone}
 }
 export const changeTaskTitleAC = (todolistId: string, taskId: string, title: string): changeTaskTitleActionType => {
     return {type: 'CHANGE-TASK-TITLE', todolistId, taskId, title}

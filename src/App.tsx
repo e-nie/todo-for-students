@@ -5,7 +5,7 @@ import {v1} from 'uuid';
 import {AddItemForm} from './AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {ChangeTaskStatusPayloadType} from "./state/tasks-reducer";
+// import {ChangeTaskStatusPayloadType} from "./state/tasks-reducer";
 
 
 export type FilterValuesType = "all" | "active" | "completed";
@@ -61,14 +61,14 @@ function App() {
         setTasks({...tasks});
     }
 
-    function changeStatus( payload: ChangeTaskStatusPayloadType) {
+    function changeStatus( todolistId:string,taskId:string, isDone:boolean) {
         //достанем нужный массив по todolistId:
-        let todolistTasks = tasks[payload.todolistId];
+        let todolistTasks = tasks[todolistId]
         // найдём нужную таску:
-        let task = todolistTasks.find(t => t.id === payload.taskId);
+        let task = todolistTasks.find(t => t.id ===  taskId);
         //изменим таску, если она нашлась
         if (task) {
-            task.isDone = payload.isDone;
+            task.isDone = isDone;
             // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
             setTasks({...tasks});
         }

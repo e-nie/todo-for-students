@@ -6,7 +6,7 @@ import {Button, IconButton} from "@mui/material";
 // import DeleteIcon from '@mui/icons-material/Delete';
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task";
-import {ChangeTaskStatusPayloadType} from "./state/tasks-reducer";
+// import {ChangeTaskStatusPayloadType} from "./state/tasks-reducer";
 
 export type TaskType = {
     id: string
@@ -21,7 +21,7 @@ type PropsType = {
     changeFilter: (todolistId: string, value: FilterValuesType) => void
     addTask: (title: string, todolistId: string) => void
     removeTask: (id: string, todolistId: string) => void
-    changeTaskStatus: (payload:ChangeTaskStatusPayloadType) => void
+    changeTaskStatus: (todolistId: string, id: string, isDone:boolean) => void
     changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
     filter: FilterValuesType
     removeTodolist: (todolistId: string) => void
@@ -68,6 +68,7 @@ export const Todolist = React.memo(function (props: PropsType) {
             <div>
                 {
                     props.tasks.map(t => <Task
+                        isDone={false}
                         task = {t}
                         changeTaskStatus = {props.changeTaskStatus}
                         changeTaskTitle = {props.changeTodolistTitle}
