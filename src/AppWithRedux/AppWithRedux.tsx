@@ -1,8 +1,8 @@
 import React, {useCallback, useReducer, useState} from 'react';
-import './App.css';
-import {Todolist, TaskType} from './Todolist'
+import '../App.css';
+import {Todolist, TaskType} from '../Todolist'
 import {v1} from "uuid";
-import {AddItemForm} from './AddItemForm';
+import {AddItemForm} from '../AddItemForm/AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
 import {
@@ -11,7 +11,7 @@ import {
     changeTodolistTitleAC,
     removeTodolistAC,
     todolistsReducer
-} from "./state/todolists-reducer";
+} from "../state/todolists-reducer";
 import {
     addTaskAC,
     changeTaskStatusAC,
@@ -19,9 +19,10 @@ import {
     changeTaskTitleAC,
     removeTaskAC,
     tasksReducer
-} from "./state/tasks-reducer";
+} from "../state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
+import {AppRootStateType} from "../state/store";
+import {useAppWithRedux} from "./hooks/useAppWithRedux";
 
 export type FilterValuesType = 'all' | 'completed' | 'active'
 
@@ -36,50 +37,22 @@ export type TasksStateType = {
 }
 
 function AppWithRedux() {
-    console.log('AppWithRedux was called');
 
-    const todolists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todolists)
-    console.log(todolists)
+    const {
+        todolists,
+        tasks,
+        addTask,
+        addTodolist,
+        changeFilter,
+        changeStatus,
+        changeTaskTitle,
+        removeTask,
+        removeTodolist,
+        changeTodolistTitle,
 
-    const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-    const dispatch = useDispatch()
 
-    const removeTask = useCallback((id: string, todolistId: string) => {
-        dispatch(removeTaskAC(todolistId, id))
-    }, [])
 
-    const addTask = useCallback(( todolistId: string,title: string) => {
-        dispatch(addTaskAC(todolistId, title))
-    }, [dispatch])
-
-    const changeStatus = useCallback((todolistId: string, id:string, isDone:boolean) => {
-        // debugger
-        dispatch(changeTaskStatusAC(todolistId, id, isDone))
-    }, [dispatch])
-
-    const changeTaskTitle = useCallback((id: string, newTitle: string, todolistId: string) => {
-        dispatch(changeTaskTitleAC(todolistId, id, newTitle))
-    }, [dispatch])
-
-    const changeFilter = useCallback((todolistId: string, value: FilterValuesType) => {
-        dispatch(changeTodolistFilterAC(todolistId, value))
-    }, [dispatch])
-
-    const removeTodolist = useCallback((todolistId: string) => {
-        const action = removeTodolistAC(todolistId)
-        dispatch(action)
-    }, [dispatch])
-
-    const changeTodolistTitle = useCallback((id: string, title: string) => {
-        const action = changeTodolistTitleAC(id, title)
-        dispatch(action)
-    }, [dispatch])
-
-    const addTodolist = useCallback((title: string) => {
-        const action = addTodolistAC(title)
-        dispatch(action)
-    }, [dispatch])
-
+    } = useAppWithRedux()
 
     return (
         <div className = "App">
@@ -116,11 +89,11 @@ function AppWithRedux() {
                                         filter = {tl.filter}
                                         removeTodolist = {removeTodolist}
                                         changeTodolistTitle = {changeTodolistTitle}
-                                        addTask={addTask}
+                                        addTask = {addTask}
                                         changeTaskStatus = {changeStatus}
-                                        changeTaskTitle={changeTaskTitle}
-                                        removeTask={removeTask}
-                                        tasks={tasksForTodolist}
+                                        changeTaskTitle = {changeTaskTitle}
+                                        removeTask = {removeTask}
+                                        tasks = {tasksForTodolist}
                                     />
                                 </Paper>
                             </Grid>

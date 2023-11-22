@@ -1,6 +1,6 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import AppWithRedux from "./AppWithRedux";
+import AppWithRedux from "./AppWithRedux/AppWithRedux";
 import {Provider} from "react-redux";
 import {store} from "./state/store";
 import {ReduxStoreProviderDecorator} from "./state/ReduxStoreProviderDecorator";

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
-import {FilterValuesType} from "./AppWithRedux";
-import {AddItemForm} from "./AddItemForm";
+import {FilterValuesType} from "./AppWithRedux/AppWithRedux";
+import {AddItemForm} from "./AddItemForm/AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
 // import DeleteIcon from '@mui/icons-material/Delete';
