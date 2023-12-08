@@ -22,7 +22,7 @@ export const Task = React.memo((props: TaskPropsType) => {
         props.changeTaskStatus(
             props.todolistId,
          props.task.id,
-            props.isDone
+            newIsDoneValue
         )
     }
 
