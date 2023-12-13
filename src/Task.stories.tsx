@@ -1,8 +1,9 @@
 import type {Meta, StoryObj} from '@storybook/react';
 import {Task} from "./Task";
-import React, { useState} from "react";
+import React, {useState} from "react";
 
 import {action} from '@storybook/addon-actions'
+import {TaskStatuses} from "./api/todolists-api";
 
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -20,7 +21,7 @@ const meta: Meta<typeof Task> = {
         removeTask: action('removeTask'),
         changeTaskStatus: action('changeTaskStatus'),
         changeTaskTitle: action('changeTaskTitle'),
-        task: {id: '45dss', title: 'Just title', isDone: true},
+        task: {id: '45dss', title: 'Just title', status: TaskStatuses.New, description: '', priority: 0, startDate: '', deadline: '', todolistId: '', order: 0, addedDate: ''},
         todolistId: '12jfkdjf'
     }
 };
@@ -33,24 +34,24 @@ export const TaskIsDoneStory: Story = {}
 
 export const TaskIsNotDoneStory: Story = {
     args: {
-        task: {id: '45dvcss', title: 'Just another title', isDone: false},
+        task: {id: '45dvcss', title: 'Just another title', status: TaskStatuses.Completed,description: '', priority: 0, startDate: '', deadline: '', todolistId: '', order: 0, addedDate: ''},
     }
 }
 
 export const TaskPresentation = () => {
-    const [task, setTask] = useState({id: '45dss', title: 'CSS', isDone: false})
-    return <Task
-        task = {task}
-        removeTask = {action('Remove task')}
-        changeTaskStatus = {() => {
-            setTask({...task, isDone: !task.isDone})
-        }}
-        changeTaskTitle = {(_, title) => {
-            setTask({...task, title: title})
-        }}
-        todolistId = {'45dvcss'}
-        isDone={false}
-    />
+    // const [task, setTask] = useState({id: '45dss', title: 'CSS', isDone: false})
+    // return <Task
+    //     task = {task}
+    //     removeTask = {action('Remove task')}
+    //     changeTaskStatus = {() => {
+    //         setTask({...task, isDone: !task.isDone})
+    //     }}
+    //     changeTaskTitle = {(_, title) => {
+    //         setTask({...task, title: title})
+    //     }}
+    //     todolistId = {'45dvcss'}
+    //     isDone = {false}
+    // />
 }
 
 // export const TaskPresentationStory: Story = {

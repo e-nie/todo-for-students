@@ -2,16 +2,21 @@ import {useState} from "react";
 import {todolistId1, todolistId2} from "../id-utils";
 import {v1} from "uuid";
 import {TasksStateType} from "../App";
+import {TaskPriorities, TaskStatuses} from "../../api/todolists-api";
 
 export function useTasks() {
     let [tasks, setTasks] = useState<TasksStateType>({
         [todolistId1]: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true}
+            {id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed, todolistId:todolistId1, description: '', startDate: '', addedDate: '',
+            deadline: '', order: 0, priority: TaskPriorities.Low},
+            {id: v1(), title: "JS",  status: TaskStatuses.Completed, todolistId:todolistId1, description: '', startDate: '', addedDate: '',
+                deadline: '', order: 0, priority: TaskPriorities.Low }
         ],
         [todolistId2]: [
-            {id: v1(), title: "Milk", isDone: true},
-            {id: v1(), title: "React Book", isDone: true}
+            {id: v1(), title: "Milk", status: TaskStatuses.Completed, todolistId:todolistId2, description: '', startDate: '', addedDate: '',
+                deadline: '', order: 0, priority: TaskPriorities.Low},
+            {id: v1(), title: "React Book", status: TaskStatuses.Completed, todolistId:todolistId2, description: '', startDate: '', addedDate: '',
+                deadline: '', order: 0, priority: TaskPriorities.Low}
         ]
     });
 
@@ -26,7 +31,8 @@ export function useTasks() {
     }
 
     function addTask(title: string, todolistId: string) {
-        let task = {id: v1(), title: title, isDone: false};
+        let task = {id: v1(), title: "HTML&CSS", status: TaskStatuses.New, todolistId:todolistId1, description: '', startDate: '', addedDate: '',
+                deadline: '', order: 0, priority: TaskPriorities.Low}
         //достанем нужный массив по todolistId:
         let todolistTasks = tasks[todolistId];
         // перезапишем в этом объекте массив для нужного тудулиста копией, добавив в начало новую таску:
@@ -35,14 +41,14 @@ export function useTasks() {
         setTasks({...tasks});
     }
 
-    function changeStatus(todolistId: string, taskId: string, isDone: boolean) {
+    function changeStatus(todolistId: string, taskId: string, status: TaskStatuses) {
         //достанем нужный массив по todolistId:
         let todolistTasks = tasks[todolistId]
         // найдём нужную таску:
         let task = todolistTasks.find(t => t.id === taskId);
         //изменим таску, если она нашлась
         if (task) {
-            task.isDone = isDone;
+            task.status = status;
             // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
             setTasks({...tasks});
         }

@@ -1,8 +1,6 @@
 import {combineReducers, createStore, legacy_createStore} from "redux";
 import {todolistsReducer} from "./todolists-reducer";
 import {tasksReducer} from "./tasks-reducer";
-import {TasksStateType, TodolistType} from "../AppWithRedux/AppWithRedux";
-
 
 const  rootReducer = combineReducers({
     todolists: todolistsReducer,

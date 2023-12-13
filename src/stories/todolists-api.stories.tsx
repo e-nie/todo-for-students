@@ -156,7 +156,7 @@ export const UpdateTask = () => {
 
 
     const updateTask = () => {
-        todolistsAPI.updateTask(todolistId, tasktId, {title:taskTitle})
+        todolistsAPI.updateTask(todolistId, tasktId, {taskTitle})
             .then((res) => {
                 setState(res.data)
             })

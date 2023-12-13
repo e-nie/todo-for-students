@@ -1,21 +1,22 @@
 import React from 'react';
 import '../App.css';
-import {TaskType, Todolist} from '../Todolist';
+import { Todolist} from '../Todolist';
 import {v1} from 'uuid';
 import {AddItemForm} from '../AddItemForm/AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
 import {useTodolists} from "./hooks/useTodolists";
 import {useTasks} from "./hooks/useTasks";
+import {TaskType} from "../api/todolists-api";
 // import {ChangeTaskStatusPayloadType} from "./state/tasks-reducer";
 
 
-export type FilterValuesType = "all" | "active" | "completed";
-export type TodolistType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-}
+
+// export type TodolistType = {
+//     id: string
+//     title: string
+//     filter: FilterValuesType
+// }
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -71,10 +72,10 @@ function App() {
                             let tasksForTodolist = allTodolistTasks;
 
                             if (tl.filter === "active") {
-                                tasksForTodolist = allTodolistTasks.filter(t => t.isDone === false);
+                                tasksForTodolist = allTodolistTasks.filter(t => t.status);
                             }
                             if (tl.filter === "completed") {
-                                tasksForTodolist = allTodolistTasks.filter(t => t.isDone === true);
+                                tasksForTodolist = allTodolistTasks.filter(t => t.status);
                             }
 
                             // @ts-ignore
