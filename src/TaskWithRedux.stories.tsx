@@ -8,7 +8,8 @@ import {TaskWithRedux} from "./TaskWithRedux";
 import {initialGlobalState, ReduxStoreProviderDecorator} from "./state/ReduxStoreProviderDecorator";
 import {AppRootStateType} from "./state/store";
 import {useSelector} from "react-redux";
-import {TaskType} from "./Todolist";
+import {TaskPriorities, TaskStatuses, TaskType} from "./api/todolists-api";
+
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof TaskWithRedux> = {
@@ -30,7 +31,7 @@ type Story = StoryObj<typeof TaskWithRedux>;
 
 export const TaskWithReduxPresent = () => {
     let task  = useSelector<AppRootStateType, TaskType>(state=> state.tasks['todolistId1'][0])
-    if(!task) task = {id:'oppo', title: 'Default task', isDone: false}
+    if(!task) task = {id: '3', title: 'tea' , status:TaskStatuses.New, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', todolistId: 'todolistId2', order: 0, addedDate: ''}
     return <TaskWithRedux task={task} todolistId='todolistId1'/>
 }
 

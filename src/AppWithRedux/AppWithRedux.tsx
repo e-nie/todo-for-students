@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import '../App.css';
 import {Todolist} from '../Todolist'
 import {AddItemForm} from '../AddItemForm/AddItemForm';
@@ -6,7 +6,8 @@ import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography}
 import {Menu} from "@mui/icons-material";
 
 import {useAppWithRedux} from "./hooks/useAppWithRedux";
-import { TaskType } from '../api/todolists-api';
+import {TaskType, todolistsAPI} from '../api/todolists-api';
+
 
 export type TasksStateType = {
     [key: string]: Array<TaskType>
@@ -25,10 +26,8 @@ function AppWithRedux() {
         removeTask,
         removeTodolist,
         changeTodolistTitle,
-
-
-
     } = useAppWithRedux()
+
 
     return (
         <div className = "App">

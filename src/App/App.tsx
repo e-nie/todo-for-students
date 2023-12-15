@@ -25,7 +25,6 @@ export type TasksStateType = {
 
 function App() {
 
-    // @ts-ignore
     const {
         tasks,
         removeTask,
