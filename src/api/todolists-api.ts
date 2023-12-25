@@ -44,18 +44,18 @@ export type TaskType = {
     startDate: string
     deadline: string
     id: string
-    todolistId: string
+    todoListId: string
     order: number
     addedDate: string
 }
 
 export type UpdateTaskModelType = {
     title: string
-    description?: string
-    status?: number
-    priority?: number
-    startDate?: string
-    deadline?: string
+    description: string
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
 }
 
 type GetTasksResponse = {
@@ -88,24 +88,25 @@ export const todolistsAPI = {
         return promise
     },
     updateTodolistTitle(id: string, title: string) {
-        const promise = instance.put<ResponseType>(` todo-lists/${id}`, {title: title})
+        const promise = instance.put<ResponseType>(`todo-lists/${id}`, {title: title})
         return promise
     },
 
     //tasks
-    getTasks(todolistId: string) {
-        return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
+    getTasks(todoListId: string) {
+        return instance.get<GetTasksResponse>(`todo-lists/${todoListId}/tasks`)
     },
-    deleteTask(todolistId: string, taskId: string) {
-        return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
-    },
-
-    createTask(todolistId: string, taskTitle: string) {
-        return instance.post<ResponseType<TaskType>>(`todo-lists/${todolistId}/tasks`, {title: taskTitle})
+    deleteTask(todoListId: string, taskId: string) {
+        return instance.delete<ResponseType>(`todo-lists/${todoListId}/tasks/${taskId}`)
     },
 
-    updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
-        return instance.put<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId} `, model)
+    createTask(todoListId: string, taskTitle: string) {
+        return instance.post<ResponseType<{item: TaskType }>>(`todo-lists/${todoListId}/tasks`, {title: taskTitle})
+    },
+
+    updateTask(todoListId: string, taskId: string, model: UpdateTaskModelType) {
+        console.log('called')
+        return instance.put<ResponseType>(`todo-lists/${todoListId}/tasks/${taskId}`, model)
     },
 
 

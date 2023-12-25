@@ -15,19 +15,17 @@ type PropsType = {
     id: string
     title: string
     tasks: Array<TaskType>
-    changeFilter: (todolistId: string, value: FilterValuesType) => void
-    addTask: (title: string, todolistId: string) => void
-    removeTask: (id: string, todolistId: string) => void
-    changeTaskStatus: (todolistId: string, id: string, status: TaskStatuses) => void
-    changeTaskTitle: (taskId: string, newTitle: string, todolistId: string) => void
+    changeFilter: (todoListId: string, value: FilterValuesType) => void
+    addTask: (title: string, todoListId: string) => void
+    removeTask: (id: string, todoListId: string) => void
+    changeTaskStatus: (todoListId: string, id: string, status: TaskStatuses) => void
+    changeTaskTitle: (taskId: string, newTitle: string, todoListId: string) => void
     filter: FilterValuesType
-    removeTodolist: (todolistId: string) => void
+    removeTodolist: (todoListId: string) => void
     changeTodolistTitle: (id: string, newTitle: string) => void
 }
 
 export const Todolist = React.memo(function (props: PropsType) {
-    console.log('Todolist was called');
-
 
     const useAppDispatch = () => useDispatch<AppDispatch>()
     const dispatch = useAppDispatch()
@@ -75,9 +73,9 @@ export const Todolist = React.memo(function (props: PropsType) {
                     tasksForTodolist.map(t => <Task
                         task = {t}
                         changeTaskStatus = {props.changeTaskStatus}
-                        changeTaskTitle = {props.changeTodolistTitle}
+                        changeTaskTitle = {props.changeTaskTitle}
                         removeTask = {props.removeTask}
-                        todolistId = {props.id}
+                        todoListId = {props.id}
                         key = {t.id}
                     />)
                 }

@@ -21,8 +21,8 @@ const meta: Meta<typeof Task> = {
         removeTask: action('removeTask'),
         changeTaskStatus: action('changeTaskStatus'),
         changeTaskTitle: action('changeTaskTitle'),
-        task: {id: '45dss', title: 'Just title', status: TaskStatuses.New, description: '', priority: 0, startDate: '', deadline: '', todolistId: '', order: 0, addedDate: ''},
-        todolistId: '12jfkdjf'
+        task: {id: '45dss', title: 'Just title', status: TaskStatuses.New, description: '', priority: 0, startDate: '', deadline: '', todoListId: '', order: 0, addedDate: ''},
+        todoListId: '12jfkdjf'
     }
 };
 
@@ -34,7 +34,7 @@ export const TaskIsDoneStory: Story = {}
 
 export const TaskIsNotDoneStory: Story = {
     args: {
-        task: {id: '45dvcss', title: 'Just another title', status: TaskStatuses.Completed,description: '', priority: 0, startDate: '', deadline: '', todolistId: '', order: 0, addedDate: ''},
+        task: {id: '45dvcss', title: 'Just another title', status: TaskStatuses.Completed,description: '', priority: 0, startDate: '', deadline: '', todoListId: '', order: 0, addedDate: ''},
     }
 }
 
@@ -49,7 +49,7 @@ export const TaskPresentation = () => {
     //     changeTaskTitle = {(_, title) => {
     //         setTask({...task, title: title})
     //     }}
-    //     todolistId = {'45dvcss'}
+    //     todoListId = {'45dvcss'}
     //     isDone = {false}
     // />
 }

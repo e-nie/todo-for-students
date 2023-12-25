@@ -30,9 +30,9 @@ export default meta;
 type Story = StoryObj<typeof TaskWithRedux>;
 
 export const TaskWithReduxPresent = () => {
-    let task  = useSelector<AppRootStateType, TaskType>(state=> state.tasks['todolistId1'][0])
-    if(!task) task = {id: '3', title: 'tea' , status:TaskStatuses.New, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', todolistId: 'todolistId2', order: 0, addedDate: ''}
-    return <TaskWithRedux task={task} todolistId='todolistId1'/>
+    let task  = useSelector<AppRootStateType, TaskType>(state=> state.tasks['todoListId1'][0])
+    if(!task) task = {id: '3', title: 'tea' , status:TaskStatuses.New, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', todoListId: 'todoListId2', order: 0, addedDate: ''}
+    return <TaskWithRedux task={task} todoListId='todoListId1'/>
 }
 
 export const TaskWithReduxStory: Story = {

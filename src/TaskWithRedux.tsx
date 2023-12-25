@@ -9,18 +9,18 @@ import {TaskStatuses, TaskType} from './api/todolists-api';
 
 type TaskPropsType = {
     task: TaskType
-    todolistId: string
+    todoListId: string
 }
-export const TaskWithRedux = memo(({task, todolistId}: TaskPropsType) => {
+export const TaskWithRedux = memo(({task, todoListId}: TaskPropsType) => {
 
     const dispatch = useDispatch()
-    const onClickHandler = () => dispatch(removeTaskAC(todolistId,task.id))
+    const onClickHandler = () => dispatch(removeTaskAC(todoListId,task.id))
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let newIsDoneValue = e.currentTarget.checked;
-        dispatch(changeTaskStatusAC(todolistId,task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New));
+        dispatch(changeTaskStatusAC(todoListId,task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New));
     }
     const onTitleChangeHandler = (newValue: string) => {
-        dispatch(changeTaskTitleAC(todolistId, task.id, newValue));
+        dispatch(changeTaskTitleAC(todoListId, task.id, newValue));
     }
 
     console.log(task.status);
