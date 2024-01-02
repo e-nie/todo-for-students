@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect} from 'react';
-import {AddItemForm} from "./AddItemForm/AddItemForm";
-import {EditableSpan} from "./EditableSpan";
+import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
+import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {Task} from "./Task";
-import {TaskStatuses, TaskType} from "./api/todolists-api";
-import {FilterValuesType} from "./state/todolists-reducer";
+import {Task} from "./Task/Task";
+import {TaskStatuses, TaskType} from "../../../api/todolists-api";
+import {FilterValuesType} from "../todolists-reducer";
 import {useDispatch} from "react-redux";
-import {AppDispatch} from "./state/store";
-import {fetchTasksTC} from "./state/tasks-reducer";
+import {AppDispatch} from "../../../app/store";
+import {fetchTasksTC} from "../tasks-reducer";
 // import {ChangeTaskStatusPayloadType} from "./state/tasks-reducer";
 
 type PropsType = {
@@ -72,9 +72,9 @@ export const Todolist = React.memo(function (props: PropsType) {
                 {
                     tasksForTodolist.map(t => <Task
                         task = {t}
-                        changeTaskStatus = {props.changeTaskStatus}
-                        changeTaskTitle = {props.changeTaskTitle}
-                        removeTask = {props.removeTask}
+                        // changeTaskStatus = {props.changeTaskStatus}
+                        // changeTaskTitle = {props.changeTaskTitle}
+                        // removeTask = {props.removeTask}
                         todoListId = {props.id}
                         key = {t.id}
                     />)

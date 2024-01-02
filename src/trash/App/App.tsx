@@ -1,13 +1,13 @@
 import React from 'react';
-import '../App.css';
-import { Todolist} from '../Todolist';
+import '../../app/App.css';
+import { Todolist} from '../../features/TodolistsList/Todolist/Todolist';
 import {v1} from 'uuid';
-import {AddItemForm} from '../AddItemForm/AddItemForm';
+import {AddItemForm} from '../../components/AddItemForm/AddItemForm';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
 import {useTodolists} from "./hooks/useTodolists";
 import {useTasks} from "./hooks/useTasks";
-import {TaskType} from "../api/todolists-api";
+import {TaskType} from "../../api/todolists-api";
 // import {ChangeTaskStatusPayloadType} from "./state/tasks-reducer";
 
 

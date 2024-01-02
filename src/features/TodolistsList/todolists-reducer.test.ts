@@ -5,8 +5,8 @@ import {
     todolistsReducer, TodolistDomainType, FilterValuesType, SetTodolistsActionType, setTodolistsAC
 } from './todolists-reducer'
 import {v1} from 'uuid'
-import {TodolistType} from "../api/todolists-api";
-import {todoListId1, todoListId2} from "../App/id-utils";
+import {UpdateTaskModelType} from "../../api/todolists-api";
+import {todoListId1, todoListId2} from "../../trash/App/id-utils";
 
 
 class TodolistTypeType {
@@ -40,7 +40,7 @@ test('correct todolist should be added', () => {
 
     const endState = todolistsReducer(startState, addTodolistAC({
         id: '123',
-        title: 'from Test',
+        title: newTodolistTitle,
         addedDate: 'today',
         order: 0
     }))
@@ -101,3 +101,4 @@ test('todolists should be set to the state', () => {
 
     expect(endState.length).toBe(2)
 })
+

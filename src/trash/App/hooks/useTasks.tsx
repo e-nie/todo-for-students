@@ -2,7 +2,7 @@ import {useState} from "react";
 import {todoListId1, todoListId2} from "../id-utils";
 import {v1} from "uuid";
 import {TasksStateType} from "../App";
-import {TaskPriorities, TaskStatuses} from "../../api/todolists-api";
+import {TaskPriorities, TaskStatuses} from "../../../api/todolists-api";
 
 export function useTasks() {
     let [tasks, setTasks] = useState<TasksStateType>({

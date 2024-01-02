@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 // import AppWithReducers from "./AppWithReducers";
-import AppWithRedux from "./AppWithRedux/AppWithRedux";
-import App from './App/App'
-import {store} from "./state/store";
+import App from "./app/App";
+import {store} from "./app/store";
 import {Provider} from "react-redux";
 
 
@@ -13,7 +12,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <Provider store = {store}>
-        <AppWithRedux />
+        <App />
     </Provider>
 );
 
