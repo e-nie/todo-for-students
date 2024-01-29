@@ -13,7 +13,7 @@ import {
 } from "../../features/TodolistsList/todolists-reducer";
 import {TasksStateType} from "../../features/TodolistsList/tasks-reducer";
 import {TaskStatuses, todolistsAPI} from "../../api/todolists-api";
-import {AnyAction} from "redux";
+
 
 
 export const useApp = () => {
@@ -21,7 +21,7 @@ export const useApp = () => {
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 
-    // const dispatch = useDispatch<AnyAction>()
+
 
     const useAppDispatch = () => useDispatch<AppDispatch>()
     const dispatch = useAppDispatch()

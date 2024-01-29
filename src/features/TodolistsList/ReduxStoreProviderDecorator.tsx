@@ -1,21 +1,24 @@
 import {Provider} from "react-redux";
 import {AppRootStateType, store} from "../../app/store";
 import {combineReducers, createStore, legacy_createStore} from "redux";
-import {tasksReducer} from "./tasks-reducer";
-import {todolistsReducer} from "./todolists-reducer";
+
 import {v1} from "uuid";
 import {TaskPriorities, TaskStatuses} from "../../api/todolists-api";
 import {todoListId2} from "../../trash/App/id-utils";
+import {tasksReducer} from "./tasks-reducer";
+import {todolistsReducer} from "./todolists-reducer";
+import {appReducer} from "../../app/app-reducer";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
-    todolists: todolistsReducer
+    todolists: todolistsReducer,
+    app: appReducer
 })
 
 export const initialGlobalState: AppRootStateType = {
     todolists: [
-        {id: "todoListId1", title: "What to learn", filter: "all", addedDate: '', order: 0},
-        {id: "todoListId2", title: "What to buy", filter: "all", addedDate: '', order: 0}
+        {id: "todoListId1", title: "What to learn", filter: "all", addedDate: '', order: 0, entityStatus: 'idle'},
+        {id: "todoListId2", title: "What to buy", filter: "all", addedDate: '', order: 0, entityStatus: 'idle'}
     ],
     tasks: {
         ["todoListId1"]: [
@@ -37,6 +40,11 @@ export const initialGlobalState: AppRootStateType = {
                 deadline: '', order: 0, priority: TaskPriorities.Low
             }
         ]
+    }
+    ,
+    app: {
+        error: null,
+        status: 'idle'
     }
 };
 

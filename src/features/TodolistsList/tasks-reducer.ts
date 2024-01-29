@@ -9,6 +9,7 @@ import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelTyp
 import {todoListId2} from "../../trash/App/id-utils";
 import {AppRootStateType, AppThunk} from "../../app/store";
 import {Action, Dispatch} from "redux";
+import {setErrorAC, SetErrorActionType, setStatusAC, SetStatusActionType} from "../../app/app-reducer";
 
 const initialState: TasksStateType = {}
 
@@ -56,9 +57,11 @@ export const setTasksAC = (todoListId: string, tasks: TaskType[]) => ({type: 'SE
 
 //thunks
 export const fetchTasksTC = (todoListId: string) => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setStatusAC('loading'))
     todolistsAPI.getTasks(todoListId)
         .then(res => {
             dispatch(setTasksAC(todoListId, res.data.items))
+            dispatch(setStatusAC('succeeded'))
         })
 }
 export const removeTaskTC = (taskId: string, todoListId: string) => (dispatch: Dispatch<ActionsType>) => {
@@ -68,9 +71,20 @@ export const removeTaskTC = (taskId: string, todoListId: string) => (dispatch: D
         })
 }
 export const addTaskTC = (title: string, todoListId: string) => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setStatusAC('loading'))
     todolistsAPI.createTask(todoListId, title)
         .then(res => {
-            dispatch(addTaskAC(res.data.data.item))
+            if (res.data.resultCode === 0) {
+                dispatch(addTaskAC(res.data.data.item))
+                dispatch(setStatusAC('succeeded'))
+            } else {
+                if (res.data.messages.length) {
+                    dispatch(setErrorAC(res.data.messages[0]))
+                } else {
+                    dispatch(setErrorAC('Some error occurred'))
+                }
+                dispatch(setStatusAC('failed'))
+            }
         })
 }
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todoListId: string) =>
@@ -98,8 +112,6 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
     }
 
 // types
-
-
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
@@ -121,3 +133,6 @@ type ActionsType =
     | RemoveTodolistActionType
     | SetTodolistsActionType
     | ReturnType<typeof setTasksAC>
+    | SetErrorActionType
+    | SetStatusActionType
+
