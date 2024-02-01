@@ -2,7 +2,7 @@ import {v1} from "uuid";
 import {todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppThunk} from "../../app/store";
-import {SetErrorActionType, setStatusAC, SetStatusActionType, StatusType} from "../../app/app-reducer";
+import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType, StatusType} from "../../app/app-reducer";
 
 
 export let todoListId1 = v1() //'dsdsd-dsdsd2323232-4343ewew-sds'
@@ -23,6 +23,8 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
             return state.map(el => el.id === action.id ? {...el, title: action.title} : el)
         case 'CHANGE-TODOLIST-FILTER':
             return state.map(el => el.id === action.id ? {...el, filter: action.filter} : el)
+        case 'CHANGE-TODOLIST-ENTITY-STATUS':
+            return state.map(el => el.id === action.id ? {...el, entityStatus: action.entityStatus} : el)
         case 'SET-TODOLISTS' :
             return action.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}))
         default:
@@ -42,40 +44,50 @@ export const changeTodolistFilterAC = (id: string, filter: FilterValuesType) => 
     type: 'CHANGE-TODOLIST-FILTER',
     id,
     filter
-}) as const
+} as const)
+export const changeTodolistEntityStatusAC = (id: string, entityStatus: StatusType) => ({
+    type: 'CHANGE-TODOLIST-ENTITY-STATUS',
+    id,
+    entityStatus
+} as const)
 export const setTodolistsAC = (todolists: TodolistType[]) => ({type: 'SET-TODOLISTS', todolists}) as const
 
 // thunks
 export const fetchTodolistsTC = (): AppThunk => {
     return (dispatch: ThunkDispatch) => {
-        dispatch(setStatusAC('loading'))
+        dispatch(setAppStatusAC('loading'))
         todolistsAPI.getTodolists()
             .then(res => {
                 dispatch(setTodolistsAC(res.data))
-                dispatch(setStatusAC('succeeded'))
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
 export const removeTodolistTC = (todoListId: string) => {
-    return (dispatch: Dispatch<ActionsType>) => {
+        return (dispatch: ThunkDispatch) => {
+            dispatch(setAppStatusAC('loading'))
+            dispatch(changeTodolistEntityStatusAC(todoListId ,'loading'))
         todolistsAPI.deleteTodolist(todoListId)
             .then(res => {
                 dispatch(removeTodolistAC(todoListId))
+                dispatch(setAppStatusAC('succeeded'))
+
             })
     }
 }
 export const addTodolistTC = (title: string) => {
+    // debugger
     return (dispatch: ThunkDispatch) => {
-        dispatch(setStatusAC('loading'))
+        dispatch(setAppStatusAC('loading'))
         todolistsAPI.createTodolist(title)
             .then(res => {
                 dispatch(addTodolistAC(res.data.data.item))
-                dispatch(setStatusAC('succeeded'))
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
 export const changeTodolistTitleTC = (id: string, title: string) => {
-    return (dispatch:ThunkDispatch) => {
+    return (dispatch: ThunkDispatch) => {
         todolistsAPI.updateTodolistTitle(id, title)
             .then(res => {
                 dispatch(changeTodolistTitleAC(id, title))
@@ -90,14 +102,19 @@ type ActionsType =
     | ReturnType<typeof changeTodolistFilterAC>
     | ReturnType<typeof changeTodolistTitleAC>
     | SetTodolistsActionType
+    | ChangeTodolistEntityActionType
+
 
 
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
 export type  RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type  SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
+export type  ChangeTodolistEntityActionType = ReturnType<typeof changeTodolistEntityStatusAC>
+
 export type FilterValuesType = "all" | "active" | "completed";
+
 export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
     entityStatus: StatusType // статус для дизэйбла кнопки удаления
 }
-type ThunkDispatch = Dispatch<ActionsType | SetStatusActionType | SetErrorActionType>
+type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>

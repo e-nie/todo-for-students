@@ -21,7 +21,7 @@ type Story = StoryObj<typeof App>;
 
 export const AppBaseExample = (props:any) =>  {
     // render: () => <Provider store={store}><App/></Provider>
-    return (<App/>)
+    return (<App demo={true}/>)
 };
 
 

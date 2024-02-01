@@ -4,7 +4,7 @@ import {IconButton, TextField} from "@mui/material";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import {action} from '@storybook/addon-actions'
 import {Task} from "./Todolist/Task/Task";
-import {initialGlobalState, ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
+import { ReduxStoreProviderDecorator} from "./ReduxStoreProviderDecorator";
 import {AppRootStateType} from "../../app/store";
 import {useSelector} from "react-redux";
 import {TaskPriorities, TaskStatuses, TaskType} from "../../api/todolists-api";

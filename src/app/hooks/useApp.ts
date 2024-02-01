@@ -14,19 +14,23 @@ import {
 import {TasksStateType} from "../../features/TodolistsList/tasks-reducer";
 import {TaskStatuses, todolistsAPI} from "../../api/todolists-api";
 
+type PropsType = {
+    demo?: boolean
+}
 
-
-export const useApp = () => {
+export const useApp = ({demo = false}: PropsType) => {
 
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
-
 
 
     const useAppDispatch = () => useDispatch<AppDispatch>()
     const dispatch = useAppDispatch()
 
     useEffect(() => {
+        if(demo) {
+            return
+        }
         dispatch(fetchTodolistsTC())
     }, [])
 
@@ -80,5 +84,6 @@ export const useApp = () => {
         removeTask,
         removeTodolist,
         changeTodolistTitle,
-    }
+        demo
+        }
 }

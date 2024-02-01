@@ -7,23 +7,25 @@ import {useAddItemForm} from "./hooks/useAddItemForm";
 
 export type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
 
-export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
+export const AddItemForm = React.memo(({addItem, disabled = false}: AddItemFormPropsType) => {
 
     const {
         title,
         error,
         onChangeHandler,
         onKeyPressHandler,
-        addItem
-    } = useAddItemForm(props.addItem)
+        addItemHandler
+    } = useAddItemForm(addItem)
 
 
     return <div>
-             <TextField
+        <TextField
             variant = {'outlined'}
+            disabled = {disabled}
             label = {'Enter your text...'}
             value = {title}
             onChange = {onChangeHandler}
@@ -31,7 +33,7 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
             error = {!!error}
             helperText = {error}
         />
-        <IconButton color = 'primary' onClick = {addItem}>
+        <IconButton color = 'primary' onClick = {addItemHandler} disabled={disabled}>
             <AddTaskIcon />
         </IconButton>
     </div>

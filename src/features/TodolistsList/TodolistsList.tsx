@@ -4,7 +4,11 @@ import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import React from "react";
 
-export const TodolistsList = () => {
+type PropsType = {
+    demo?: boolean
+}
+
+export const TodolistsList: React.FC<PropsType> = ({demo = false}) => {
     const {
         todolists,
         tasks,
@@ -16,7 +20,8 @@ export const TodolistsList = () => {
         removeTask,
         removeTodolist,
         changeTodolistTitle,
-    } = useApp()
+
+    } = useApp({demo})
 
     return (
         <>
@@ -31,18 +36,17 @@ export const TodolistsList = () => {
                         return <Grid item>
                             <Paper style = {{padding: '10px'}}>
                                 <Todolist
+                                    todolist = {tl}
                                     key = {tl.id}
-                                    id = {tl.id}
-                                    title = {tl.title}
                                     changeFilter = {changeFilter}
-                                    filter = {tl.filter}
-                                    removeTodolist = {removeTodolist}
+                                       removeTodolist = {removeTodolist}
                                     changeTodolistTitle = {changeTodolistTitle}
                                     addTask = {addTask}
                                     changeTaskStatus = {changeStatus}
                                     changeTaskTitle = {changeTaskTitle}
                                     removeTask = {removeTask}
                                     tasks = {tasksForTodolist}
+                                    demo = {demo}
                                 />
                             </Paper>
                         </Grid>

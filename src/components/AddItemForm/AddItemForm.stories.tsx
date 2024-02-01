@@ -28,11 +28,9 @@ export default meta;
 type Story = StoryObj<typeof AddItemForm>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const AddItemFormStory: Story = {
+export const AddItemFormStory: Story = {};
 
-};
-
-const  AddItemFormWithError= (props: AddItemFormPropsType) =>  {
+const AddItemFormWithError = (props: AddItemFormPropsType) => {
     const [newTaskTitle, setNewTaskTitle] = useState('')
     const [error, setError] = useState<null | string>('Title is required')
 
@@ -73,6 +71,9 @@ const  AddItemFormWithError= (props: AddItemFormPropsType) =>  {
 }
 
 export const AddItemFormWithErrorStory: Story = {
-    render: (args) => <AddItemFormWithError addItem={action('Button clicked inside form')}/>
+    render: (args) => <AddItemFormWithError addItem = {action('Button clicked inside form')} />
 };
 
+export const AddItemFormDisabledExampleStory = (props: any) => {
+    return (<AddItemForm addItem = {action('!!!')} disabled = {true} />)
+};
