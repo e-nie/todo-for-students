@@ -2,7 +2,13 @@ import {v1} from "uuid";
 import {todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppThunk} from "../../app/store";
-import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType, StatusType} from "../../app/app-reducer";
+import {
+    setAppErrorAC,
+    SetAppErrorActionType,
+    setAppStatusAC,
+    SetAppStatusActionType,
+    StatusType
+} from "../../app/app-reducer";
 
 
 export let todoListId1 = v1() //'dsdsd-dsdsd2323232-4343ewew-sds'
@@ -64,9 +70,9 @@ export const fetchTodolistsTC = (): AppThunk => {
     }
 }
 export const removeTodolistTC = (todoListId: string) => {
-        return (dispatch: ThunkDispatch) => {
-            dispatch(setAppStatusAC('loading'))
-            dispatch(changeTodolistEntityStatusAC(todoListId ,'loading'))
+    return (dispatch: ThunkDispatch) => {
+        dispatch(setAppStatusAC('loading'))
+        dispatch(changeTodolistEntityStatusAC(todoListId, 'loading'))
         todolistsAPI.deleteTodolist(todoListId)
             .then(res => {
                 dispatch(removeTodolistAC(todoListId))
@@ -76,13 +82,21 @@ export const removeTodolistTC = (todoListId: string) => {
     }
 }
 export const addTodolistTC = (title: string) => {
-    // debugger
     return (dispatch: ThunkDispatch) => {
         dispatch(setAppStatusAC('loading'))
         todolistsAPI.createTodolist(title)
             .then(res => {
-                dispatch(addTodolistAC(res.data.data.item))
-                dispatch(setAppStatusAC('succeeded'))
+                if (res.data.resultCode === 0) {
+                    dispatch(addTodolistAC(res.data.data.item))
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    if(res.data.messages.length) {
+                        dispatch(setAppErrorAC(res.data.messages[0]))
+                    } else {
+                        dispatch(setAppErrorAC('Some error occurred'))
+                    }
+                    dispatch(setAppStatusAC('failed'))
+                }
             })
     }
 }
@@ -103,7 +117,6 @@ type ActionsType =
     | ReturnType<typeof changeTodolistTitleAC>
     | SetTodolistsActionType
     | ChangeTodolistEntityActionType
-
 
 
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
