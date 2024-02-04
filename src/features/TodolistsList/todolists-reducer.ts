@@ -10,6 +10,7 @@ import {
   StatusType,
 } from '../../app/app-reducer'
 import { handleServerAppError, handleServerNetworkError } from '../../utils/error-utils'
+import { fetchTasksTC } from './tasks-reducer'
 
 export let todoListId1 = v1() //'dsdsd-dsdsd2323232-4343ewew-sds'
 export let todoListId2 = v1()
@@ -36,6 +37,9 @@ export const todolistsReducer = (
       return state.map((el) => (el.id === action.id ? { ...el, entityStatus: action.entityStatus } : el))
     case 'SET-TODOLISTS':
       return action.todolists.map((tl) => ({ ...tl, filter: 'all', entityStatus: 'idle' }))
+    case 'CLEAR-DATA':
+      return []
+
     default:
       return state
   }
@@ -64,16 +68,26 @@ export const changeTodolistEntityStatusAC = (id: string, entityStatus: StatusTyp
   }) as const
 export const setTodolistsAC = (todolists: TodolistType[]) => ({ type: 'SET-TODOLISTS', todolists }) as const
 
+export const clearTodosDataAC = () => ({ type: 'CLEAR-DATA' }) as const
+
 // thunks
 export const fetchTodolistsTC = (): AppThunk => {
-  return (dispatch: ThunkDispatch) => {
+  return (dispatch: any) => {
     dispatch(setAppStatusAC('loading'))
     todolistsAPI
       .getTodolists()
       .then((res) => {
+        debugger
         dispatch(setTodolistsAC(res.data))
         dispatch(setAppStatusAC('succeeded'))
+        return res.data
       })
+      .then((todos) => {
+        todos.forEach((tl) => {
+          dispatch(fetchTasksTC(tl.id))
+        })
+      })
+
       .catch((error) => {
         handleServerNetworkError(error, dispatch)
       })
@@ -123,11 +137,13 @@ type ActionsType =
   | ReturnType<typeof changeTodolistTitleAC>
   | SetTodolistsActionType
   | ChangeTodolistEntityActionType
+  | ClearTodosDataActionType
 
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
 export type ChangeTodolistEntityActionType = ReturnType<typeof changeTodolistEntityStatusAC>
+export type ClearTodosDataActionType = ReturnType<typeof clearTodosDataAC>
 
 export type FilterValuesType = 'all' | 'active' | 'completed'
 

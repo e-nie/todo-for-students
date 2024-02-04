@@ -1,6 +1,7 @@
 import {
   addTodolistAC,
   AddTodolistActionType,
+  ClearTodosDataActionType,
   removeTodolistAC,
   RemoveTodolistActionType,
   setTodolistsAC,
@@ -44,6 +45,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
     case 'SET-TASKS':
       debugger
       return { ...state, [action.todoListId]: action.tasks }
+    case 'CLEAR-DATA':
+      return {}
     default:
       return state
   }
@@ -147,5 +150,6 @@ type ActionsType =
   | RemoveTodolistActionType
   | SetTodolistsActionType
   | ReturnType<typeof setTasksAC>
+  | ClearTodosDataActionType
 
 type ThunkDispatch = Dispatch<ActionsType | SetAppStatusActionType | SetAppErrorActionType>
