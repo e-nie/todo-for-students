@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppRootStateType } from '../store'
 import { useCallback, useEffect } from 'react'
-import { addTaskTC, removeTaskTC, updateTaskTC } from '../../features/TodolistsList/tasks-reducer'
+import { addTaskTC, removeTaskAC, updateTaskTC } from '../../features/TodolistsList/tasks-reducer'
 import {
   addTodolistAC,
   addTodolistTC,
@@ -37,8 +37,8 @@ export const useApp = ({ demo = false }: PropsType) => {
     dispatch(fetchTodolistsTC())
   }, [])
 
-  const removeTask = useCallback((id: string, todoListId: string) => {
-    const thunk = removeTaskTC(id, todoListId)
+  const removeTask = useCallback((taskId: string, todoListId: string) => {
+    const thunk = removeTaskAC({ todoListId, taskId })
     dispatch(thunk)
   }, [])
 
@@ -61,7 +61,7 @@ export const useApp = ({ demo = false }: PropsType) => {
 
   const changeFilter = useCallback(
     (todoListId: string, value: FilterValuesType) => {
-      dispatch(changeTodolistFilterAC(todoListId, value))
+      dispatch(changeTodolistFilterAC({ id: todoListId, filter: value }))
     },
     [dispatch]
   )

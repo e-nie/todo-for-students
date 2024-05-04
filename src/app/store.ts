@@ -2,8 +2,10 @@ import { AnyAction, applyMiddleware, combineReducers, legacy_createStore } from 
 import { todolistsReducer } from '../features/TodolistsList/todolists-reducer'
 import { tasksReducer } from '../features/TodolistsList/tasks-reducer'
 import { thunk, ThunkAction, ThunkDispatch } from 'redux-thunk'
-import { appReducer } from './app-reducer'
+
 import { authReducer } from '../features/Login/auth-reducer'
+import { configureStore } from '@reduxjs/toolkit'
+import { appReducer } from './app-reducer'
 
 const rootReducer = combineReducers({
   todolists: todolistsReducer,
@@ -11,15 +13,12 @@ const rootReducer = combineReducers({
   app: appReducer,
   auth: authReducer,
 })
-
-// type AppRootState = {
-//     todolists:Array<TodolistType>
-//     tasks:TasksStateType
-// }
-
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
-export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
+// export const store = legacy_createStore(rootReducer, applyMiddleware(thunk))
+export const store = configureStore({
+  reducer: rootReducer,
+})
 
 // export type AppDispatch = typeof store.dispatch
 
