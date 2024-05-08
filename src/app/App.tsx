@@ -31,7 +31,9 @@ function App({ demo = false }: PropsType) {
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    dispatch(initialiseAppTC())
+    if (!demo) {
+      dispatch(initialiseAppTC())
+    }
   }, [])
 
   const logoutHandler = useCallback(() => {
@@ -47,33 +49,31 @@ function App({ demo = false }: PropsType) {
   }
 
   return (
-    <BrowserRouter>
-      <div className="App">
-        <ErrorSnackbar />
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="menu">
-              <Menu />
-            </IconButton>
-            <Typography variant="h6">News</Typography>
-            {isLoggedIn ? (
-              <Button color="inherit" onClick={logoutHandler}>
-                Log Out
-              </Button>
-            ) : (
-              ''
-            )}
-          </Toolbar>
-          {status === 'loading' && <LinearProgress />}
-        </AppBar>
-        <Container fixed>
-          <Routes>
-            <Route path={'/'} element={<TodolistsList demo={demo} />} />
-            <Route path={'/login'} element={<Login />} />
-          </Routes>
-        </Container>
-      </div>
-    </BrowserRouter>
+    <div className="App">
+      <ErrorSnackbar />
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" color="inherit" aria-label="menu">
+            <Menu />
+          </IconButton>
+          <Typography variant="h6">News</Typography>
+          {isLoggedIn ? (
+            <Button color="inherit" onClick={logoutHandler}>
+              Log Out
+            </Button>
+          ) : (
+            ''
+          )}
+        </Toolbar>
+        {status === 'loading' && <LinearProgress />}
+      </AppBar>
+      <Container fixed>
+        <Routes>
+          <Route path={'/'} element={<TodolistsList demo={demo} />} />
+          <Route path={'/login'} element={<Login />} />
+        </Routes>
+      </Container>
+    </div>
   )
 }
 
