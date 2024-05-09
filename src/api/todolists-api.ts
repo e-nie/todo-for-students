@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 const settings = {
   withCredentials: true,
@@ -59,9 +59,20 @@ export type LoginParamsType = {
   rememberMe: boolean
   captcha?: string
 }
+
+// AxiosResponse<ResponseType<{
+//       userId?: number | undefined;
+//     }>>
 export const authAPI = {
   login(data: LoginParamsType) {
-    const promise = instance.post<ResponseType<{ userId?: number }>>('auth/login', data)
+    const promise = instance.post<
+      ResponseType<{ userId?: number }>,
+      AxiosResponse<
+        ResponseType<{
+          userId?: number | undefined
+        }>
+      >
+    >('auth/login', data)
     return promise
   },
 
@@ -82,9 +93,11 @@ export type TodolistType = {
   addedDate: string
   order: number
 }
+export type FieldErrorType = { field: string; error: string }
 export type ResponseType<D = {}> = {
   resultCode: number
   messages: string[]
+  fieldsErrors?: Array<FieldErrorType>
   data: D
 }
 

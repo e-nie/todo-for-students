@@ -4,7 +4,7 @@ import { EditableSpan } from '../../../../components/EditableSpan/EditableSpan'
 import { Delete } from '@mui/icons-material'
 
 import { useDispatch } from 'react-redux'
-import { removeTaskAC, updateTaskTC } from '../../tasks-reducer'
+import { removeTaskTC, updateTaskTC } from '../../tasks-reducer'
 import { TaskStatuses, TaskType } from '../../../../api/todolists-api'
 import { AppDispatch } from '../../../../app/store'
 
@@ -16,7 +16,7 @@ export const Task = memo(({ task, todoListId }: TaskPropsType) => {
   const useAppDispatch = () => useDispatch<AppDispatch>()
   const dispatch = useAppDispatch()
 
-  const onClickHandler = () => dispatch(removeTaskAC({ todoListId, taskId: task.id }))
+  const onClickHandler = () => dispatch(removeTaskTC({ todoListId, taskId: task.id }))
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     let newIsDoneValue = e.currentTarget.checked
     dispatch(updateTaskTC(task.id, { status: newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New }, todoListId))

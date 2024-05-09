@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppRootStateType } from '../store'
 import { useCallback, useEffect } from 'react'
-import { addTaskTC, removeTaskAC, updateTaskTC } from '../../features/TodolistsList/tasks-reducer'
+import { addTaskTC, removeTaskTC, updateTaskTC } from '../../features/TodolistsList/tasks-reducer'
 import {
   addTodolistAC,
   addTodolistTC,
@@ -38,7 +38,7 @@ export const useApp = ({ demo = false }: PropsType) => {
   }, [])
 
   const removeTask = useCallback((taskId: string, todoListId: string) => {
-    const thunk = removeTaskAC({ todoListId, taskId })
+    const thunk = removeTaskTC({ todoListId, taskId })
     dispatch(thunk)
   }, [])
 
