@@ -19,10 +19,16 @@ export const Task = memo(({ task, todoListId }: TaskPropsType) => {
   const onClickHandler = () => dispatch(removeTaskTC({ todoListId, taskId: task.id }))
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     let newIsDoneValue = e.currentTarget.checked
-    dispatch(updateTaskTC(task.id, { status: newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New }, todoListId))
+    dispatch(
+      updateTaskTC({
+        taskId: task.id,
+        model: { status: newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New },
+        todoListId,
+      })
+    )
   }
   const onTitleChangeHandler = (newValue: string) => {
-    dispatch(updateTaskTC(task.id, { title: newValue }, todoListId))
+    dispatch(updateTaskTC({ taskId: task.id, model: { title: newValue }, todoListId }))
   }
 
   console.log(task.status)

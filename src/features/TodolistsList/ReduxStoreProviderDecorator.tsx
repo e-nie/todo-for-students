@@ -1,5 +1,5 @@
 import { Provider } from 'react-redux'
-import { AppRootStateType, RootReducerType, store } from '../../app/store'
+import { AppRootStateType, store } from '../../app/store'
 import { applyMiddleware, combineReducers, createStore, legacy_createStore } from 'redux'
 
 import { v1 } from 'uuid'
@@ -13,7 +13,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { BrowserRouter, HashRouter, MemoryRouter } from 'react-router-dom'
 import { Story } from '@storybook/blocks'
 
-const rootReducer: RootReducerType = combineReducers({
+const rootReducer = combineReducers({
   tasks: tasksReducer,
   todolists: todolistsReducer,
   app: appReducer,

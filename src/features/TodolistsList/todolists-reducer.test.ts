@@ -1,16 +1,15 @@
 import {
-  addTodolistAC,
   changeTodolistFilterAC,
-  changeTodolistTitleAC,
-  removeTodolistAC,
   todolistsReducer,
   TodolistDomainType,
   FilterValuesType,
-  setTodolistsAC,
   changeTodolistEntityStatusAC,
+  fetchTodolistsTC,
+  removeTodolistTC,
+  changeTodolistTitleTC,
+  addTodolistTC,
 } from './todolists-reducer'
 import { v1 } from 'uuid'
-import { UpdateTaskModelType } from '../../api/todolists-api'
 import { StatusType } from '../../app/app-reducer'
 
 let todoListId1: string
@@ -33,7 +32,7 @@ beforeEach(() => {
   ]
 })
 test('correct todolist should be removed', () => {
-  const endState = todolistsReducer(startState, removeTodolistAC({ id: todoListId1 }))
+  const endState = todolistsReducer(startState, removeTodolistTC.fulfilled({ id: todoListId1 }, 'requestId', todoListId1))
 
   expect(endState.length).toBe(1)
   expect(endState[0].id).toBe(todoListId2)
@@ -41,18 +40,14 @@ test('correct todolist should be removed', () => {
 
 test('correct todolist should be added', () => {
   let newTodolistTitle = 'New Todolist'
+  let todolist = {
+    id: '123',
+    title: newTodolistTitle,
+    addedDate: 'today',
+    order: 0,
+  }
 
-  const endState = todolistsReducer(
-    startState,
-    addTodolistAC({
-      todolist: {
-        id: '123',
-        title: newTodolistTitle,
-        addedDate: 'today',
-        order: 0,
-      },
-    })
-  )
+  const endState = todolistsReducer(startState, addTodolistTC.fulfilled({ todolist }, 'requestId', todolist.title))
 
   expect(endState.length).toBe(3)
   expect(endState[0].title).toBe(newTodolistTitle)
@@ -62,7 +57,8 @@ test('correct todolist should be added', () => {
 test('correct todolist should change its name', () => {
   let newTodolistTitle = 'New Todolist'
 
-  const action = changeTodolistTitleAC({ id: todoListId2, title: newTodolistTitle })
+  let payload = { id: todoListId2, title: newTodolistTitle }
+  const action = changeTodolistTitleTC.fulfilled(payload, 'requestId', payload)
 
   const endState = todolistsReducer(startState, action)
 
@@ -82,7 +78,8 @@ test('correct filter of todolist should be changed', () => {
 })
 
 test('todolists should be set to the state', () => {
-  const action = setTodolistsAC({ todolists: startState })
+  let payload = { todolists: startState }
+  const action = fetchTodolistsTC.fulfilled(payload, 'requestId')
 
   const endState = todolistsReducer([], action)
 

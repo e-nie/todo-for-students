@@ -1,9 +1,10 @@
 import axios, { AxiosResponse } from 'axios'
 
 const settings = {
-  withCredentials: true,
+  // withCredentials: true,  // key for cookies
   headers: {
-    // API_KEY: '2e7e3b85-ed2e-41c7-a3d4-b9a8326ad3b9',
+    ' API-KEY': '843fd0bc-dbbf-44bf-871b-0df4a7ce93f1',
+    Authorization: 'Bearer db9ec29d-4750-4b2b-b93d-8de5bb70cbe4',
   },
 }
 const instance = axios.create({

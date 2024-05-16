@@ -3,16 +3,12 @@ import { AppDispatch, AppRootStateType } from '../store'
 import { useCallback, useEffect } from 'react'
 import { addTaskTC, removeTaskTC, updateTaskTC } from '../../features/TodolistsList/tasks-reducer'
 import {
-  addTodolistAC,
   addTodolistTC,
   changeTodolistFilterAC,
-  changeTodolistTitleAC,
   changeTodolistTitleTC,
   fetchTodolistsTC,
   FilterValuesType,
-  removeTodolistAC,
   removeTodolistTC,
-  setTodolistsAC,
   TodolistDomainType,
 } from '../../features/TodolistsList/todolists-reducer'
 import { TasksStateType } from '../../features/TodolistsList/tasks-reducer'
@@ -43,18 +39,18 @@ export const useApp = ({ demo = false }: PropsType) => {
   }, [])
 
   const addTask = useCallback((todoListId: string, title: string) => {
-    const thunk = addTaskTC(title, todoListId)
+    const thunk = addTaskTC({ title, todoListId })
     dispatch(thunk)
   }, [])
 
   const changeStatus = useCallback((todoListId: string, id: string, status: TaskStatuses) => {
-    dispatch(updateTaskTC(id, { status }, todoListId))
+    dispatch(updateTaskTC({ taskId: id, model: { status }, todoListId }))
   }, [])
 
   const changeTaskTitle = useCallback(
     (todoListId: string, taskId: string, newTitle: string) => {
       console.log('todoListId', todoListId)
-      dispatch(updateTaskTC(taskId, { title: newTitle }, todoListId))
+      dispatch(updateTaskTC({ taskId, model: { title: newTitle }, todoListId }))
     },
     [dispatch]
   )
@@ -72,7 +68,7 @@ export const useApp = ({ demo = false }: PropsType) => {
   }, [])
 
   const changeTodolistTitle = useCallback((id: string, title: string) => {
-    const thunk = changeTodolistTitleTC(id, title)
+    const thunk = changeTodolistTitleTC({ id, title })
     dispatch(thunk)
   }, [])
 

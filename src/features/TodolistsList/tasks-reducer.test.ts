@@ -1,6 +1,6 @@
-import { addTaskAC, fetchTasksTC, removeTaskTC, tasksReducer, TasksStateType, updateTaskAC } from './tasks-reducer'
+import { addTaskTC, fetchTasksTC, removeTaskTC, tasksReducer, TasksStateType, updateTaskTC } from './tasks-reducer'
 
-import { addTodolistAC, removeTodolistAC, setTodolistsAC, todoListId1 } from './todolists-reducer'
+import { addTodolistTC, fetchTodolistsTC, removeTodolistTC, todoListId1 } from './todolists-reducer'
 import { TaskPriorities, TaskStatuses } from '../../api/todolists-api'
 
 let startState: TasksStateType = {}
@@ -161,20 +161,19 @@ test('correct task should be deleted from correct array', () => {
 
 test('correct task should be added to correct array', () => {
   // const action = addTaskAC('todoListId2', 'juice')
-  const action = addTaskAC({
-    task: {
-      todoListId: 'todoListId2',
-      title: 'juice',
-      status: TaskStatuses.New,
-      addedDate: '',
-      deadline: '',
-      description: '',
-      order: 0,
-      priority: 0,
-      startDate: '',
-      id: 'leo',
-    },
-  })
+  const task = {
+    todoListId: 'todoListId2',
+    title: 'juice',
+    status: TaskStatuses.New,
+    addedDate: '',
+    deadline: '',
+    description: '',
+    order: 0,
+    priority: 0,
+    startDate: '',
+    id: 'leo',
+  }
+  const action = addTaskTC.fulfilled(task, 'requestId', { title: task.title, todoListId: task.todoListId })
 
   const endState = tasksReducer(startState, action)
 
@@ -185,7 +184,8 @@ test('correct task should be added to correct array', () => {
 })
 
 test('status of specified task should be changed', () => {
-  const action = updateTaskAC({ todoListId: 'todoListId2', taskId: '2', model: { status: TaskStatuses.New } })
+  const updateModel = { todoListId: 'todoListId2', taskId: '2', model: { status: TaskStatuses.New } }
+  const action = updateTaskTC.fulfilled(updateModel, 'requestId', updateModel)
 
   const endState = tasksReducer(startState, action)
 
@@ -194,7 +194,8 @@ test('status of specified task should be changed', () => {
 })
 
 test('title of specified task should be changed', () => {
-  const action = updateTaskAC({ todoListId: 'todoListId2', taskId: '2', model: { title: 'Chocolate' } })
+  let updateModel = { todoListId: 'todoListId2', taskId: '2', model: { title: 'Chocolate' } }
+  const action = updateTaskTC.fulfilled(updateModel, 'requestId', updateModel)
   const endState = tasksReducer(startState, action)
 
   expect(endState['todoListId2'][1].title).toBe('Chocolate')
@@ -202,14 +203,17 @@ test('title of specified task should be changed', () => {
 })
 
 test('new property and new array should be added when new todolist is added', () => {
-  const action = addTodolistAC({
+  const payload = {
     todolist: {
       id: '123',
       title: 'from Test',
       addedDate: 'today',
       order: 0,
     },
-  })
+  }
+
+  const action = addTodolistTC.fulfilled(payload, 'requestId', payload.todolist.title)
+
   const endState = tasksReducer(startState, action)
 
   const keys = Object.keys(endState)
@@ -223,7 +227,7 @@ test('new property and new array should be added when new todolist is added', ()
 })
 
 test('property with todoListId should be deleted', () => {
-  const action = removeTodolistAC({ id: 'todoListId2' })
+  const action = removeTodolistTC.fulfilled({ id: 'todoListId2' }, 'requestId', 'todoListId2')
 
   const endState = tasksReducer(startState, action)
 
@@ -234,13 +238,13 @@ test('property with todoListId should be deleted', () => {
 })
 
 test('empty array should be added when we set todolists', () => {
-  const action = setTodolistsAC({
+  let payload = {
     todolists: [
       { id: '1', title: 'title 1', order: 0, addedDate: '' },
       { id: '2', title: 'title 1', order: 0, addedDate: '' },
     ],
-  })
-
+  }
+  const action = fetchTodolistsTC.fulfilled(payload, 'requestId')
   const endState = tasksReducer({}, action)
   const keys = Object.keys(endState)
 
@@ -256,7 +260,10 @@ test('tasks should be added for todolist', () => {
   // }
 
   const action = fetchTasksTC.fulfilled(
-    { tasks: startState['todoListId1'], todoListId: 'todoListId1' },
+    {
+      tasks: startState['todoListId1'],
+      todoListId: 'todoListId1',
+    },
     '',
     'todolistId1'
   )

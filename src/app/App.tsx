@@ -15,7 +15,7 @@ import { TodolistsList } from '../features/TodolistsList/TodolistsList'
 import { ErrorSnackbar } from '../components/ErrorSnackBar/ErrorSnackBar'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, AppRootStateType } from './store'
-import { initialiseAppTC, StatusType } from './app-reducer'
+import { initializeAppTC, StatusType } from './app-reducer'
 import { BrowserRouter, Navigate, Route, RouterProvider, Routes } from 'react-router-dom'
 import { Login } from '../features/Login/Login'
 import { logoutTC } from '../features/Login/auth-reducer'
@@ -32,7 +32,7 @@ function App({ demo = false }: PropsType) {
 
   useEffect(() => {
     if (!demo) {
-      dispatch(initialiseAppTC())
+      dispatch(initializeAppTC())
     }
   }, [])
 
